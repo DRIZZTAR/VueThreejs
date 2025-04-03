@@ -1,21 +1,24 @@
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core';
-import { OrbitControls, Levioso, Environment } from '@tresjs/cientos';
+import { OrbitControls, Levioso, Environment, Tetrahedron, Precipitation, Text3D } from '@tresjs/cientos';
 </script>
 
 <template>
-	<TresCanvas clear-color="#82DBC5" window-size>
-		<Suspense fallback="Loading...">
-			<Environment background :blur="0.2" preset="city" />
-		</Suspense>
+	<TresCanvas window-size>
+		<Environment :background="true" :blur="0.2" preset="sunset" />
 		<TresPerspectiveCamera />
 		<OrbitControls />
 		<TresAmbientLight :intensity="2.0" />
-		<Levioso :speed="3" :range="[0.2, 0.25]">
-			<TresMesh>
-				<TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-				<TresMeshStandardMaterial color="blue" metalness="1.2" />
-			</TresMesh>
+    <Precipitation
+      :randomness="0"
+      :speed="1"
+      :count="2500"
+    />
+    <TresGridHelper :args="[10, 10]" :position="[0,-1.5,0]"/>
+		<Levioso :speed="3" :range="[0.0, 1.0]" :rotationFactor="5.0">
+  		<Tetrahedron :args="[1, 0]">
+        <TresMeshStandardMaterial :color="0x000000" :metalness="1.5" :roughness="0.0"/>
+      </Tetrahedron>
 		</Levioso>
 	</TresCanvas>
 </template>
